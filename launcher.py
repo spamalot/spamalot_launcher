@@ -200,7 +200,7 @@ class ApplicationProvider(object):
             self.app_db = do_walk()
         #print('Loading config from file...')
         with open(os.path.expanduser(CACHE_PATH), 'rb') as pickle_db:
-            self.app_db = pickle.load(pickle_db, protocol=2)
+            self.app_db = pickle.load(pickle_db)
 
     def provide(self, search):
         for app in self.app_db:
