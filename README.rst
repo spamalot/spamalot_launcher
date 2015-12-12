@@ -55,7 +55,6 @@ Dependencies
 
 To Do
 -----
-- Make `sympy` optional (currently raises error if not importable)
 - Better PEP-8 conformance
 - use `logging` instead of `print`
 - Reorganize threading code

@@ -74,7 +74,8 @@ from PyQt4.QtGui import (QApplication, QWidget, QVBoxLayout, QPalette,
 DEFAULT_CONFIG = '''
 {
     "monospace font": "monospace",
-    "desktop paths": ["/usr/share/applications", "~/.local/share/applications"],
+    "desktop paths": ["/usr/share/applications",
+                      "~/.local/share/applications"],
     "favorite apps": [],
     "icon size": 32,
     "translucent background": true
@@ -147,10 +148,13 @@ class CalculatorProvider(object):
             yield False
         if search.startswith('=='):
             if self.sympy is None:
-                import sympy
+                try:
+                    import sympy
+                except ImportError:
+                    logging.warn('"sympy" not found.')
+                    yield QListWidgetItem('"sympy" not found.')
+                    yield True
                 self.sympy = sympy
-                # FIXME: needed?
-                #sympy.init_printing()
             locals_ = {name: getattr(self.sympy, name) for name in
                 (attribute for attribute in dir(self.sympy) if not attribute.startswith('_'))}
             for variable in ('x', 'y', 'z'):
@@ -180,7 +184,7 @@ class CommandLineProvider(object):
         if not search:
             yield False
         try:
-            subprocess.check_call(['which', search.split()[0]])
+            subprocess.check_call(['which', '--', search.split()[0]])
         except subprocess.CalledProcessError:
             pass
         else:
@@ -220,7 +224,7 @@ class DesktopSearchProvider(object):
     def provide(self, search):
         if not search:
             yield False
-        baloo_dump = subprocess.check_output(['baloosearch', search]).decode('utf-8')
+        baloo_dump = subprocess.check_output(['baloosearch', '--', search]).decode('utf-8')
         paths = re.findall('\x1b\\[0;32m(.*)\x1b\\[0;0m', baloo_dump)
         for path in paths:
             item = QListWidgetItem(path)
