@@ -29,7 +29,7 @@ Calculator
     ============  =======
 
 Symbolic Calculator
-    Do symbolic math computations using `sympy`, if you have it installed.
+    Do symbolic math computations using ``sympy``, if you have it installed.
     Start your search with "==". Use *x*, *y* and *z* as symbolic variables.
 
     For example,
@@ -37,7 +37,7 @@ Symbolic Calculator
     ===============================  =================
     Input                            Result
     ===============================  =================
-    =x+y+z+1                         ``x + y + z + 1``
+    ==x+y+z+1                         ``x + y + z + 1``
     ==simplify(sin(x)**2+cos(x)**2)  ``1``
     ===============================  =================
 
@@ -50,7 +50,7 @@ Dependencies
 - Python 2.7 or 3.x
 - PyKDE4
 - PyQt4
-- sympy (optional -- for evaluating symbolic math expressions)
+- sympy (optional—for evaluating symbolic math expressions)
 
 
 Configuration
@@ -68,7 +68,7 @@ in the application list, delete the cache file and restart Spamalot Launcher.
 
 To Do
 -----
-- Use `logging` instead of `print`
+- Use ``logging`` instead of ``print``
 - Automatically detect the presence of new *.desktop* files and add them to the
   cache
 - Move configuration and cache files to standard locations (*.config* and
