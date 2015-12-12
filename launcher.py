@@ -35,10 +35,10 @@ from PyKDE4.kdeui import KIcon, KUniqueApplication
 appName = 'launcher.py'
 catalog = ''
 programName = ki18n('Spamalot Launcher')
-version = '1.0'
+version = '2015-12-12'
 description = ki18n('')
 license = KAboutData.License_GPL_V3
-copyright = ki18n('(c) 2007 Spamalot')
+copyright = ki18n('(c) 2015 Spamalot')
 text = ki18n('none')
 homePage = 'github.com/spamalot/spamalot_launcher'
 bugEmail = 'spamalot@users.noreply.github.com'
