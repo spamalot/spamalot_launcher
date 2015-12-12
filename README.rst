@@ -55,7 +55,6 @@ Dependencies
 
 To Do
 -----
-- ensure compatibility with Python 3 (currently raises errors relating to Unicode)
 - Make `sympy` optional (currently raises error if not importable)
 - Better PEP-8 conformance
 - use `logging` instead of `print`

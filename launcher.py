@@ -220,7 +220,7 @@ class DesktopSearchProvider(object):
     def provide(self, search):
         if not search:
             yield False
-        baloo_dump = subprocess.check_output(['baloosearch', search])
+        baloo_dump = subprocess.check_output(['baloosearch', search]).decode('utf-8')
         paths = re.findall('\x1b\\[0;32m(.*)\x1b\\[0;0m', baloo_dump)
         for path in paths:
             item = QListWidgetItem(path)
