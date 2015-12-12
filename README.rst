@@ -8,8 +8,8 @@ Lightweight application and file launcher targeted for KDE SC 4 systems.
 Features
 --------
 
-Application (".desktop") Launcher
-    Launch ".desktop" files in specified locations by searching for the
+Application (*.desktop*) Launcher
+    Launch *.desktop* files in specified locations by searching for the
     application name or for the binary file name.
 
 Command Line
@@ -53,10 +53,26 @@ Dependencies
 - sympy (optional -- for evaluating symbolic math expressions)
 
 
+Configuration
+-------------
+Spamalot Launcher currently has a hard-coded configuration path at
+'~/.spamalot_launcher.config.json' and a cache path at
+'~/.spamalot_launcher.cache'.
+
+The configuration file format is JSON.
+
+Spamalot Launcher will not detect new *.desktop* files unless the cache file
+is not found. If a new application is installed and you would like to have it
+in the application list, delete the cache file and restart Spamalot Launcher.
+
+
 To Do
 -----
-- Better PEP-8 conformance
-- use `logging` instead of `print`
-- Reorganize threading code
+- Use `logging` instead of `print`
+- Automatically detect the presence of new *.desktop* files and add them to the
+  cache
+- Move configuration and cache files to standard locations (*.config* and
+  *.cache*, respectively)
+- Clean up main-program code
 - Determine if Spamalot Launcher will run on Python 2.6
 - Internationalization (e.g. for "define" keyword)
