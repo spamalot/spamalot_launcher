@@ -1,6 +1,7 @@
  {
   "monospace font": "Source Code Pro",
   "desktop paths": ["/usr/share/applications", "~/.local/share/applications"],
+  "chrome path": "~/.config/chromium/Default/Bookmarks",
   "favorite apps": ["Dolphin", "System Settings"],
   "icon size": 32,
   "translucent background": true

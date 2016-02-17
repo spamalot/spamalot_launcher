@@ -77,6 +77,7 @@ DEFAULT_CONFIG = '''
     "monospace font": "monospace",
     "desktop paths": ["/usr/share/applications",
                       "~/.local/share/applications"],
+    "chrome path": "~/.config/chromium/Default/Bookmarks",
     "favorite apps": [],
     "icon size": 32,
     "translucent background": true
@@ -244,6 +245,56 @@ class DesktopSearchProvider(object):
         yield False
 
 
+class LocateProvider(object):
+
+    def provide(self, search):
+        if len(search) < 3:
+            yield False
+        locate_dump = subprocess.check_output(
+            ['locate', '-i', '--', search]).decode('utf-8')
+        paths = locate_dump.split('\n')
+        for path in paths:
+            item = QListWidgetItem(path)
+            item.setForeground(Qt.blue)
+            item.setData(ItemTypeRole, 'file')
+            item.setData(ItemDataRole, path)
+            yield item
+        yield False
+
+
+class ChromeBookmarkProvider(object):
+
+    def __init__(self):
+        try:
+            with open(os.path.expanduser(config_options['chrome path'])) as desktop_file:
+                contents = desktop_file.read()
+        except OSError:
+            logging.warn('Cannot find Chrome bookmarks file.')
+        self.bookmarks = []
+        contents = json.loads(contents)
+        self.populate(contents['roots']['bookmark_bar']['children'])
+
+    def populate(self, items):
+        for item in items:
+            if item['type'] == 'folder':
+                self.populate(item['children'])
+            elif item['type'] == 'url':
+                self.bookmarks.append({'title': item['name'], 'url': item['url']})
+
+    def provide(self, search):
+        if not search:
+            yield False
+        for bookmark in self.bookmarks:
+            if search.lower() not in bookmark['title'].lower() and search.lower() not in bookmark['url'].lower():
+                continue
+            item = QListWidgetItem(bookmark['title'])
+            item.setForeground(Qt.red)
+            item.setData(ItemTypeRole, 'url')
+            item.setData(ItemDataRole, bookmark['url'])
+            yield item
+        yield False
+
+
 def items_from_search(search):
     items = []
     for provider in PROVIDERS:
@@ -334,6 +385,8 @@ def launch_item(item):
         subprocess.Popen(['exo-open', item.data(ItemDataRole)])
     elif item.data(ItemTypeRole) == 'file':
         subprocess.Popen(['dolphin', '--select', item.data(ItemDataRole)])
+    elif item.data(ItemTypeRole) == 'url':
+        subprocess.Popen(['x-www-browser', item.data(ItemDataRole)])
     elif item.data(ItemTypeRole) == 'executable':
         subprocess.Popen(item.data(ItemDataRole), shell=True)
     else:
@@ -400,7 +453,7 @@ except Exception as err:
 
 
 PROVIDERS = (DictionaryProvider(), CalculatorProvider(), CommandLineProvider(),
-             ApplicationProvider(), DesktopSearchProvider())
+             ApplicationProvider(), DesktopSearchProvider(), ChromeBookmarkProvider())
 searcher = Searcher()
 
 app = App()
