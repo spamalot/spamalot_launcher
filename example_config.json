@@ -1,8 +1,12 @@
- {
+{
   "monospace font": "Source Code Pro",
   "desktop paths": ["/usr/share/applications", "~/.local/share/applications"],
   "chrome path": "~/.config/chromium/Default/Bookmarks",
   "favorite apps": ["Dolphin", "System Settings"],
+  "favorites directory": "~/favorites",
+  "open command": "exo-open",
+  "file manager command": "dolphin",
+  "reveal in file manager command": "dolphin --select",
   "icon size": 32,
   "translucent background": true
-  }
+}
